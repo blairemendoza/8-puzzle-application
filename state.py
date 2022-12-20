@@ -17,8 +17,18 @@ class State:
       self.depth = 0
       self.direction = ''
   
-  def __cmp__(self, other):
-    return (self.f > other.f) - (self.f < other.f) 
+  # def cmp_0(self, other):
+  #   return (self.f > other.f) - (self.f < other.f) 
+  
+  def __lt__(self, other):
+    return self.f < other.f
+  
+  def __eq__(self, other):
+    if (other == None):
+      return False
+    if (not isinstance(other, State)):
+      return False
+    return self.f == other.f
 
   def getFManhattan(self):
     h = 0
@@ -27,6 +37,16 @@ class State:
         if self.board[current_x][current_y] != 0:
           goal_x, goal_y = divmod(self.board[current_x][current_y],3)
           h += abs(current_x - goal_x) + abs(current_y - goal_y)
+    self.f = h + self.g
+    return self.f
+  
+  def getFEuclidean(self):
+    h = 0
+    for current_x in range(0,3):
+      for current_y in range(0,3):
+        if self.board[current_x][current_y] != 0:
+          goal_x, goal_y = divmod(self.board[current_x][current_y],3)
+          h += sqrt(pow(current_x - goal_x,2) + pow(current_y - goal_y,2))
     self.f = h + self.g
     return self.f
   

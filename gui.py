@@ -2,6 +2,7 @@ from tkinter import *
 from solver import Solver
 from state import State
 from bfs import BFS
+from a_star import aStar
 import random
 
 class GUI:
@@ -65,10 +66,8 @@ class GUI:
       self.buttons.append(button) 
       self.buttons[i].pack(side=LEFT,expand=YES,fill=BOTH)
     initialState = State(self.board,'',None)
-    #self.buttons[0].config(text=' DFS ',command =lambda: self.solveButtonAction(DFS(initialState)))
-    self.buttons[0].config(text=' BFS ',command =lambda: self.solveButtonAction(BFS(initialState)))
-    #self.buttons[2].config(text='A* (Euclidean)',command =lambda: self.solveButtonAction(Euclidean(initialState)))
-    #self.buttons[3].config(text='A* (Manhattan)',command =lambda: self.solveButtonAction(Solver(initialState)))
+    self.buttons[0].config(text=' BFS ', command=lambda: self.solveButtonAction(BFS(initialState)))
+    self.buttons[1].config(text=' A* ', command=lambda: self.solveButtonAction(aStar(initialState)))
     self.previousButton = Button(self.ButtonsFrame, text='< Previous ', bd='0', bg='#161b24', fg='#e1e4e8', activebackground='#0b0d0f', activeforeground='#e1e4e8', font=('Arial 20 bold'), state=DISABLED, command =lambda:self.previousButtonAction())
     self.nextButton = Button(self.ButtonsFrame, text=' Next >', bd='0', bg='#161b24', fg='#e1e4e8', activebackground='#0b0d0f', activeforeground='#e1e4e8', font=('Arial 20 bold'), command =lambda:self.nextButtonAction())
     self.beginButton = Button(self.ButtonsFrame, text='<< Begin', bd='0', bg='#161b24', fg='#e1e4e8', activebackground='#0b0d0f', activeforeground='#e1e4e8', font=('Arial 20 bold'), command =lambda:self.beginButtonAction())
@@ -177,7 +176,7 @@ class GUI:
       self.buttons[i].pack_forget()
     self.loadingLabel.pack_forget()
 
-    self.costLabel.config(text=f'Cost of path: {solver.finalState.f}  |')
+    self.costLabel.config(text=f'Cost of path: {round(solver.finalState.f)}  |')
     self.exploredLabel.config(text=f'Expanded nodes: {solver.expandedNodes}  |')
     self.depthLabel.config(text=f'Search depth: {solver.depth}  |')
     self.timeLabel.config(text=f'Time: {round(solver.runningTime, 4)} secs')
