@@ -8,12 +8,12 @@ goalTest = [[0,1,2],[3,4,5],[6,7,8]]
 class BFS(Solver):
   
   def solve(self):
-    self.expandedNodes += 1
     before = perf_counter()
     frontier = deque([self.initialState])
     self.explored.add(self.initialState.id)
     
     while frontier:
+      self.expandedNodes += 1
       state = frontier.popleft()
       state.getFManhattan()
       if (state.board == goalTest):
